@@ -1,0 +1,16 @@
+# binaries
+**/bin/
+bin-int/
+**/Intermediates/
+**/Debug/
+
+# VS files and folders
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+**.cache
+
+# imgui
+*.ini
