@@ -46,4 +46,4 @@ Note that this builds project files for **Visual Studio 2019**. If you use a dif
 (located in the `vendor/premake/bin` folder) and modify the respective build script. 
 
 This will generate all the solution files needed using premake. Once that succeeds, you're all set! You can now open the .sln file in Visual Studio 2019 and start 
-using Flora! The startup project should be specified to Fauna, so you'll be able to just press Run and Debug to try it out!
+using PINS! The startup project should be specified to PINS, so you'll be able to just press Run and Debug to try it out!
