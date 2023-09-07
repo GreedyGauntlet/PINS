@@ -1,6 +1,7 @@
 #include "ndlpch.h"
+#include "Testing/TestHandler.h"
 
 int main() {
-	std::cout << "Hello World!\n";
+	Needles::TestHandler::RunTests();
 	return 0;
 }
