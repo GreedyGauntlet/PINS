@@ -15,5 +15,6 @@
 #include <map>
 #include <stdint.h>
 #include <cstring>
+#include <random>
 #include <Windows.h>
 
