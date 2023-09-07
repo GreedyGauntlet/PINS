@@ -33,63 +33,22 @@ namespace Needles {
 
 		// ====================================== ENCRYPTION TESTS ======================================
 
-		// testing default generate seed
+		// testing generate seed
 		tests.push_back(TestCase([]() {
-			Seed default_seed = Encryption::GenerateSeed();
+			Seed seed = Encryption::GenerateSeed();
 
-			if (default_seed.Size != DEFAULT_SEED_SIZE) {
-				Error("Default seed did not default to defined size\n\t\tExpected: " + std::to_string(DEFAULT_SEED_SIZE) + "\n\t\tRecieved: " + std::to_string(default_seed.Size));
+			if (seed.Size != 32 && seed.Size != 16 && seed.Size != 24) {
+				Error("Seed did not have valid size\n\t\tExpected: 16, 24, or 32\n\t\tRecieved: " + std::to_string(seed.Size));
 				failed++;
 				return;
 			}
 
 			bool nonzero = false;
-			for (uint8_t i = 0; i < default_seed.Size; i++)
-				if (default_seed.Data[i] != 0)
-					nonzero = true;
-			if (!nonzero) {
-				Error("Default seed did not generate a valid non-zero seed");
-				failed++;
-				return;
-			}
-
-			if (default_seed.Epoch == 0) {
-				Error("Default seed epoch is zero");
-				failed++;
-				return;
-			}
-
-			Info("Default seed test passed!");
-			passed++;
-		}));
-
-		// testing specific generate seed
-		tests.push_back(TestCase([]() {
-			std::random_device rd;
-			std::mt19937 gen(rd()); 
-			std::uniform_int_distribution<int> dis(1, UINT8_MAX);
-			uint8_t random_size = dis(gen);
-
-			Seed spec_seed = Encryption::GenerateSeed(random_size);
-
-			if (spec_seed.Size != random_size) {
-				Error("Seed did not have defined size\n\t\tExpected: " + std::to_string(random_size) + "\n\t\tRecieved: " + std::to_string(spec_seed.Size));
-				failed++;
-				return;
-			}
-
-			bool nonzero = false;
-			for (uint8_t i = 0; i < spec_seed.Size; i++)
-				if (spec_seed.Data[i] != 0)
+			for (uint8_t i = 0; i < seed.Size; i++)
+				if (seed.Bytes[i] != 0)
 					nonzero = true;
 			if (!nonzero) {
 				Error("Seed did not generate a valid non-zero seed");
-				failed++;
-				return;
-			}
-
-			if (spec_seed.Epoch == 0) {
-				Error("Seed epoch is zero");
 				failed++;
 				return;
 			}
@@ -107,10 +66,8 @@ namespace Needles {
 			bool verified = true;
 			if (prior_seed.Size != post_seed.Size)
 				verified = false;
-			else if (prior_seed.Epoch != post_seed.Epoch)
-				verified = false;
 			for (uint8_t i = 0; i < post_seed.Size; i++)
-				if (post_seed.Data[i] != prior_seed.Data[i])
+				if (post_seed.Bytes[i] != prior_seed.Bytes[i])
 					verified = false;
 
 			if (!verified) {
@@ -120,6 +77,22 @@ namespace Needles {
 			}
 
 			Info("Seed Get/Set test passed!");
+			passed++;
+		}));
+
+		// test encrypting and decrypting
+		tests.push_back(TestCase([]() {
+			Seed seed = Encryption::GenerateSeed();
+			Encryption::SetSeed(seed);
+
+			Data data;
+			data.Size = 4;
+			uint8_t string[16] = "Hello, World!";
+			data.Bytes = string;
+
+			Encryption::Encrypt(data);
+
+			Info("Encryption/Decryption test passed!");
 			passed++;
 		}));
 
