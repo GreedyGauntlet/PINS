@@ -12,5 +12,11 @@ bin-int/
 **.vcxproj.user
 **.cache
 
+# XCode files and folders
+**.xcodeproj
+**.xcworkspace
+**.pbxproj
+**.xcworkspacedata
+
 # imgui
 *.ini
