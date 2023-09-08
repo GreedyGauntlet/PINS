@@ -47,7 +47,7 @@ namespace Needles {
 	}
 
 	#ifdef OPENSSL_READY
-	void Encryption::Encrypt(Data& data) {
+	void Encryption::Encrypt(Data& data) { //TODO: note that IV will be used and need to be added to packet size calculation when AES is implemented
 		AES_KEY aesKey;
 		AES_set_encrypt_key(s_Seed.Bytes, s_Seed.Size * 8, &aesKey);
 		

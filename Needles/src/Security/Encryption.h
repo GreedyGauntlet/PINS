@@ -1,19 +1,7 @@
 #pragma once
-#define SEED_SIZE 32
+#include "Core/Structures.h"
 
 namespace Needles {
-	struct Seed {
-		uint8_t* Bytes = nullptr;
-		uint8_t Size = SEED_SIZE;
-	};
-
-	struct Data {
-		uint8_t* Bytes = nullptr;
-		uint8_t Size = 0;
-		uint8_t* IV = nullptr;
-		bool Encrypted = false;
-	};
-
 	class Encryption {
 	public:
 		static Seed& GenerateSeed();
