@@ -2,11 +2,11 @@
 #include "TestCase.h"
 
 namespace Needles {
-	TestCase::TestCase(std::function<void()> test) 
-		: m_Test(test) {
+	TestCase::TestCase(std::string name, std::function<bool()> test) 
+		: m_Name(name), m_Test(test) {
 	}
 
-	void TestCase::Execute() {
-		m_Test();
+	bool TestCase::Execute() {
+		return m_Test();
 	}
 }
