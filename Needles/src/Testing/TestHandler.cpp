@@ -3,27 +3,7 @@
 #include "Testing/TestCase.h"
 #include "Security/Encryption.h"
 
-#define RED_TEXT "\x1b[31m"
-#define GREEN_TEXT "\x1b[32m"
-#define YELLOW_TEXT "\x1b[33m"
-#define RESET_COLOR "\x1b[0m"
-
 namespace Needles {
-	static void Error(std::string error) {
-		std::cout << RED_TEXT << "[ERROR]: " + error << RESET_COLOR << std::endl;
-	}
-
-	static void Trace(std::string trace) {
-		std::cout << RESET_COLOR << "[TRACE]: " + trace << RESET_COLOR << std::endl;
-	}
-
-	static void Info(std::string info) {
-		std::cout << GREEN_TEXT << "[INFO]: " + info << RESET_COLOR << std::endl;
-	}
-
-	static void Warn(std::string warn) {
-		std::cout << YELLOW_TEXT << "[WARN]: " + warn << RESET_COLOR << std::endl;
-	}
 
 	void TestHandler::RunTests() {
 		std::vector<TestCase> tests;
@@ -38,7 +18,7 @@ namespace Needles {
 			Seed seed = Encryption::GenerateSeed();
 
 			if (seed.Size != 32 && seed.Size != 16 && seed.Size != 24) {
-				Error("Seed did not have valid size\n\t\tExpected: 16, 24, or 32\n\t\tRecieved: " + std::to_string(seed.Size));
+				NDL_ERROR("Seed did not have valid size\n\t\tExpected: 16, 24, or 32\n\t\tRecieved: " + std::to_string(seed.Size));
 				failed++;
 				return;
 			}
@@ -48,12 +28,12 @@ namespace Needles {
 				if (seed.Bytes[i] != 0)
 					nonzero = true;
 			if (!nonzero) {
-				Error("Seed did not generate a valid non-zero seed");
+				NDL_ERROR("Seed did not generate a valid non-zero seed");
 				failed++;
 				return;
 			}
 
-			Info("Specified Seed test passed!");
+			NDL_INFO("Specified Seed test passed!");
 			passed++;
 		}));
 
@@ -71,12 +51,12 @@ namespace Needles {
 					verified = false;
 
 			if (!verified) {
-				Error("Generated seed was unable to be statically set");
+				NDL_ERROR("Generated seed was unable to be statically set");
 				failed++;
 				return;
 			}
 
-			Info("Seed Get/Set test passed!");
+			NDL_INFO("Seed Get/Set test passed!");
 			passed++;
 		}));
 
@@ -86,13 +66,34 @@ namespace Needles {
 			Encryption::SetSeed(seed);
 
 			Data data;
-			data.Size = 4;
-			uint8_t string[16] = "Hello, World!";
-			data.Bytes = string;
+			data.Size = 16;
+			uint8_t base_string[16] = "Hello, World!";
+			uint8_t data_string[16] = "Hello, World!";
+			data.Bytes = data_string;
 
 			Encryption::Encrypt(data);
+			bool encrypted = false;
+			for (int i = 0; i < data.Size; i++)
+				if (data.Bytes[i] != base_string[i])
+					encrypted = true;
+			if (!encrypted) {
+				NDL_ERROR("Unable to properly encrypt data");
+				failed++;
+				return;
+			}
 
-			Info("Encryption/Decryption test passed!");
+			Encryption::Decrypt(data);
+			bool decrypted = true;
+			for (int i = 0; i < data.Size; i++)
+				if (data.Bytes[i] != base_string[i])
+					decrypted = false;
+			if (!decrypted) {
+				NDL_ERROR("Unable to properly decrypt data");
+				failed++;
+				return;
+			}
+
+			NDL_INFO("Encryption/Decryption test passed!");
 			passed++;
 		}));
 
@@ -100,9 +101,9 @@ namespace Needles {
 			test.Execute();
 
 		std::cout << "\n=============== RESULTS =============== \n";
-		Trace("TESTS PASSED: " + std::to_string(passed) + "/" + std::to_string(tests.size()));
-		Trace("TESTS FAILED: " + std::to_string(failed) + "/" + std::to_string(tests.size()));
-		Trace("WARNINGS: " + std::to_string(warnings));
+		NDL_TRACE("TESTS PASSED: " + std::to_string(passed) + "/" + std::to_string(tests.size()));
+		NDL_TRACE("TESTS FAILED: " + std::to_string(failed) + "/" + std::to_string(tests.size()));
+		NDL_TRACE("WARNINGS: " + std::to_string(warnings));
 		std::cout << "======================================= \n";
 	}
 }

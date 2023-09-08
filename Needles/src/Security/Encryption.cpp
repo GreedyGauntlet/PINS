@@ -1,8 +1,11 @@
 #include "ndlpch.h"
 #include "Encryption.h"
 #include <cstdint>
-#include <openssl/aes.h>
-#include <openssl/rand.h>
+
+#ifdef OPENSSL_READY
+	#include <openssl/aes.h>
+	#include <openssl/rand.h>
+#endif
 
 namespace Needles {
 	static Seed s_Seed;
@@ -29,6 +32,21 @@ namespace Needles {
 		s_Seed = seed;
 	}
 
+	void Encryption::Encrypt(Data& data) { // TODO: this is a weak encrypt, use openSSL's AES algorithm later
+		if (data.Encrypted) return;
+		for (size_t i = 0; i < data.Size; i++)
+			data.Bytes[i] ^= s_Seed.Bytes[i % s_Seed.Size];
+		data.Encrypted = true;
+	}
+
+	void Encryption::Decrypt(Data& data) {
+		if (!data.Encrypted) return;
+		for (size_t i = 0; i < data.Size; i++)
+			data.Bytes[i] ^= s_Seed.Bytes[i % s_Seed.Size];
+		data.Encrypted = false;
+	}
+
+	#ifdef OPENSSL_READY
 	void Encryption::Encrypt(Data& data) {
 		AES_KEY aesKey;
 		AES_set_encrypt_key(s_Seed.Bytes, s_Seed.Size * 8, &aesKey);
@@ -48,4 +66,5 @@ namespace Needles {
 		AES_cbc_encrypt(data.Bytes, data.Bytes, data.Size, &aesKey, data.IV, AES_DECRYPT);
 		data.Encrypted = false;
 	}
+	#endif
 }

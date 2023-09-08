@@ -1,1 +1,0 @@
-This document is a placeholder for git organization purposes until third party libraries are needed

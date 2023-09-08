@@ -14,13 +14,14 @@ project "Needles"
 	{
 		"src/**.h",
 		"src/**.cpp",
-		"%{IncludeDir.openSSL}"
+		--"%{IncludeDir.openSSL}"
 	}
 
 	includedirs
 	{
 		"src",
-		"vendor/openssl/include"
+		"vendor/spdlog/include",
+		--"vendor/openssl/include"
 	}
 
 	filter "system:windows"
@@ -32,9 +33,9 @@ project "Needles"
 
 		links
 		{
-			"%{Library.libssl}",
-			"%{Library.libcrypto}",
-			"%{Library.openSSL}"
+			--"%{Library.libssl}",
+			--"%{Library.libcrypto}",
+			--"%{Library.openSSL}"
 		}
 
 	filter "configurations:Debug"
