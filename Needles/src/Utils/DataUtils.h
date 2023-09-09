@@ -16,6 +16,19 @@ namespace Needles {
         static T FromData(const Data& data) {
             return FromDataHelper<T>::FromData(data);
         }
+
+        template <typename T>
+        static T FromBytes(const uint8_t* bytes, const size_t size = 0) {
+            size_t numbytes = size == 0 ? sizeof(T) : size;
+            T result;
+            if constexpr (std::is_pointer_v<T>) {
+                result = reinterpret_cast<T>(new uint8_t[numbytes]);
+                std::memcpy(result, bytes, numbytes);
+            }
+            else
+                std::memcpy(&result, bytes, numbytes);
+            return result;
+        }
     private:
         template <typename T>
         struct ToDataHelper {

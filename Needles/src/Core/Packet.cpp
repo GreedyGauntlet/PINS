@@ -1,5 +1,6 @@
 #include "ndlpch.h"
 #include "Packet.h"
+#include "Utils/DataUtils.h"
 
 namespace Needles {
 
@@ -13,7 +14,7 @@ namespace Needles {
 		Data& data = packet.GetData();
 
 		// size
-		uint16_t size = bytes[0] | ((uint16_t)bytes[1] << 8);
+		uint16_t size = DataUtils::FromBytes<uint16_t>(bytes);
 		data.Size = size - 3 - UID_SIZE - AUTH_KEY_SIZE;
 
 		// flags
@@ -30,6 +31,7 @@ namespace Needles {
 			config.Authentication[i] = bytes[i + 3 + UID_SIZE];
 
 		// DATA
+		data.Bytes = new uint8_t[data.Size];
 		for (int i = 0; i < data.Size; i++)
 			data.Bytes[i] = bytes[i + 3 + UID_SIZE + AUTH_KEY_SIZE];
 

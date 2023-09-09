@@ -2,6 +2,7 @@
 #include "Testing/TestHandler.h"
 #include "Security/Encryption.h"
 #include "Utils/DataUtils.h"
+#include "Core/Packet.h"
 
 using namespace Needles;
 
@@ -82,6 +83,59 @@ int main() {
 		end_string_data != string_data ||
 		std::string(end_array_data) != std::string(array_data))
 		return false;
+	return true;
+	);
+
+	TEST("packet bytes test",
+	PacketConfig config;
+	config.Guest = true;
+	config.Type = PacketType::UDP;
+	char authkey[AUTH_KEY_SIZE] = "this is a sweet key";
+	char uid[UID_SIZE] = "username Jason";
+	memcpy(config.Authentication, authkey, AUTH_KEY_SIZE);
+	memcpy(config.UID, uid, UID_SIZE);
+	Data data = DataUtils::ToData<std::string>("This is my cool packet data, isn't it awesome?!?");
+	
+	Packet packet = Packet(data, config);
+	uint8_t* bytes = packet.Bytes();
+	uint16_t size = DataUtils::FromBytes<uint16_t>(bytes);
+	if (size != packet.Size())
+		return false;
+
+	uint8_t flags = DataUtils::FromBytes<uint8_t>(bytes + 2);
+	if (flags != 0x01)
+		return false;
+
+	char* p_uid = DataUtils::FromBytes<char*>(bytes + 3, UID_SIZE);
+	char* p_authkey = DataUtils::FromBytes<char*>(bytes + 3 + UID_SIZE, AUTH_KEY_SIZE);
+	if (std::string(p_uid) != std::string(uid) || std::string(p_authkey) != std::string(authkey))
+		return false;
+
+	for (int i = 0; i < data.Size; i++)
+		if (data.Bytes[i] != bytes[i + 3 + UID_SIZE + AUTH_KEY_SIZE])
+			return false;
+
+	return true;
+	);
+
+	TEST("load packet test",
+	PacketConfig config;
+	config.Guest = true;
+	config.Type = PacketType::UDP;
+	char authkey[AUTH_KEY_SIZE] = "this is a sweet key";
+	char uid[UID_SIZE] = "username Jason";
+	memcpy(config.Authentication, authkey, AUTH_KEY_SIZE);
+	memcpy(config.UID, uid, UID_SIZE);
+	Data data = DataUtils::ToData<std::string>("This is my cool packet data, isn't it awesome?!?");
+	Packet packet = Packet(data, config);
+	uint8_t* bytes = packet.Bytes();
+
+	Packet loaded = Packet::LoadPacket(bytes);
+	if (loaded.Size() != packet.Size()) return false;
+	uint8_t* loaded_bytes = loaded.Bytes();
+	for (int i = 0; i < loaded.Size(); i++)
+		if (bytes[i] != loaded_bytes[i])
+			return false;
 	return true;
 	);
 
