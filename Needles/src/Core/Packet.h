@@ -15,8 +15,8 @@ namespace Needles {
 	struct PacketConfig {
 		bool Guest = true;
 		PacketType Type = PacketType::TCP;
-		uint8_t UID[UID_SIZE];
-		uint8_t Authentication[AUTH_KEY_SIZE];
+		uint8_t UID[UID_SIZE] = { 0 };
+		uint8_t Authentication[AUTH_KEY_SIZE] = { 0 };
 	};
 
 	class Packet {
