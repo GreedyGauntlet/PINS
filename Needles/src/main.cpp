@@ -59,6 +59,32 @@ int main() {
 	return decrypted;
 	);
 
-	TestHandler::PrintResults(TestHandler::RunTests());
+	TEST("data utils test", 
+	int numeric_data = 69;
+	std::string string_data = "This is a string of data I want to turn into a data object!!";
+	char array_data[38] = "Bro this is not a huge amount of data";
+	
+	Data ndata = DataUtils::ToData<int>(numeric_data);
+	Data sdata = DataUtils::ToData<std::string>(string_data);
+	Data adata = DataUtils::ToData<char[38]>(array_data);
+	if (ndata.Size == 1 ||
+		sdata.Size == 0 ||
+		adata.Size != 38 ||
+		ndata.Bytes == nullptr ||
+		sdata.Bytes == nullptr ||
+		adata.Bytes == nullptr)
+		return false;
+	
+	int end_numeric_data = DataUtils::FromData<int>(ndata);
+	std::string end_string_data = DataUtils::FromData<std::string>(sdata);
+	char* end_array_data = (char*)DataUtils::FromData(adata);
+	if (end_numeric_data != numeric_data ||
+		end_string_data != string_data ||
+		std::string(end_array_data) != std::string(array_data))
+		return false;
+	return true;
+	);
+
+	TestHandler::RunTests();
 	return 0;
 }

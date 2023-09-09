@@ -30,12 +30,11 @@ namespace Needles {
 			results.Total++;
 		}
 
+		if (log) {
+			std::cout << "\n=============== RESULTS =============== \n";
+			NDL_TRACE("TESTS PASSED: " + std::to_string(results.Passed) + "/" + std::to_string(results.Total));
+			std::cout << "======================================= \n";
+		}
 		return results;
-	}
-
-	void TestHandler::PrintResults(TestResults& results) {
-		std::cout << "\n=============== RESULTS =============== \n";
-		NDL_TRACE("TESTS PASSED: " + std::to_string(results.Passed) + "/" + std::to_string(results.Total));
-		std::cout << "======================================= \n";
 	}
 }

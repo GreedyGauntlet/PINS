@@ -2,22 +2,17 @@
 #include "DataUtils.h"
 
 namespace Needles {
-
-    template <typename T>
-    Data& DataUtils::ToData(const T& typedata) {
+    Data& DataUtils::ToData(const void* ptr, size_t size) {
         Data data;
-        const uint8_t byte_array = reinterpret_cast<const uint8_t*>(&typedata);
-        data.Size = sizeof(T);
-        data.Bytes = new uint8_t[data.Size];
-        std::memcpy(data.Bytes, byte_array, data.Size);
+        data.Size = size;
+        data.Bytes = new uint8_t[size];
+        std::memcpy(data.Bytes, ptr, size);
         return data;
     }
 
-    template <typename T>
-    T DataUtils::FromData(const Data& data) {
-        T result;
-        std::memcpy(&result, data.Bytes, data.Size);
-        return result;
+    void* DataUtils::FromData(const Data& data) {
+        void* ptr = new uint8_t[data.Size];
+        std::memcpy(ptr, data.Bytes, data.Size);
+        return ptr;
     }
-
 }

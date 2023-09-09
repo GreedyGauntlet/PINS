@@ -13,6 +13,5 @@ namespace Needles {
 		static void AddTest(TestCase tc);
 		static void AddTest(std::string name, std::function<bool()> test);
 		static void ClearTests();
-		static void PrintResults(TestResults& results);
 	};
 }
