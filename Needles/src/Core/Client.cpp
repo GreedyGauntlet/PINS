@@ -3,7 +3,7 @@
 
 namespace Needles {
 
-	Client::Client(ClientConfig& config)
+	Client::Client(ClientConfig config)
 		: m_Config(config) {
 	}
 

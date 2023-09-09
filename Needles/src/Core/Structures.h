@@ -1,5 +1,4 @@
 #pragma once
-#include <algorithm>
 #define SEED_SIZE 32
 
 namespace Needles {

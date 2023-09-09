@@ -3,14 +3,14 @@
 
 namespace Needles {
 	struct ClientConfig {
-		uint8_t UID[UID_SIZE];
-		uint8_t Authentication[AUTH_KEY_SIZE];
-		NetworkAddress Connection;
+		uint8_t UID[UID_SIZE] = { 0 };
+		uint8_t Authentication[AUTH_KEY_SIZE] = { 0 };
+		NetworkAddress Connection = { 0 };
 	};
 
 	class Client {
 	public:
-		Client(ClientConfig& config = { 0 });
+		Client(ClientConfig config = { 0 });
 		void Connect(const NetworkAddress& destination);
 		void Disconnect();
 		bool Send(Packet packet);
@@ -18,6 +18,6 @@ namespace Needles {
 		bool IsConnected();
 		ClientConfig& GetConfig() { return m_Config; }
 	private:
-		ClientConfig& m_Config;
+		ClientConfig m_Config;
 	};
 }

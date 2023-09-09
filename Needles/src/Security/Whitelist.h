@@ -4,6 +4,7 @@
 
 namespace Needles {
 	class Whitelist {
+	public:
 		static void Add(IPAddress ip);
 		static void Remove(IPAddress ip);
 		static void Clear();
