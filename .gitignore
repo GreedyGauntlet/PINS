@@ -27,3 +27,6 @@ bin-int/
 
 # imgui
 *.ini
+
+# local
+**/local/
