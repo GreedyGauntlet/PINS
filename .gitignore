@@ -16,11 +16,13 @@ bin-int/
 
 # XCode files and folders
 **.xcodeproj
-**.xcworkspace
+**.xcodeproj/
+**.xcworkspace/
 **.pbxproj
 **.xcworkspacedata
 
 #MacOS
+**/.DS_Store
 **.DS_Store
 
 # imgui
