@@ -20,6 +20,8 @@ bin-int/
 **.xcworkspace/
 **.pbxproj
 **.xcworkspacedata
+**.plist
+**.xcuserstate
 
 #MacOS
 **/.DS_Store
