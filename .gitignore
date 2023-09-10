@@ -12,5 +12,18 @@ bin-int/
 **.vcxproj.user
 **.cache
 
+# XCode files and folders
+**.xcodeproj
+**.xcodeproj/
+**.xcworkspace/
+**.pbxproj
+**.xcworkspacedata
+**.plist
+**.xcuserstate
+
+#MacOS
+**/.DS_Store
+**.DS_Store
+
 # imgui
 *.ini

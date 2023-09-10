@@ -35,11 +35,12 @@ cloned PINS normally, you can also run the following to download submodules:
 git submodule update --init --recursive
 ```
 
-Once everything is properly cloned, navigate to the scripts folder and run the setup script!
+Once everything is properly cloned, navigate to the scripts folder and run the setup script for your respective OS! For example,
+for windows users the commands will be:
 
 ```
 cd scripts
-./Setup.bat
+./WIN_Setup.bat
 ```
 
 Note that this builds project files for **Visual Studio 2019**. If you use a different version of visual studio, you may need to use a different version of premake

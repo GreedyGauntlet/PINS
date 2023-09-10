@@ -1,0 +1,3 @@
+[submodule "Needles/vendor/spdlog"]
+	path = Needles/vendor/spdlog
+	url = https://github.com/Pygmalion-Project/spdlog.git
