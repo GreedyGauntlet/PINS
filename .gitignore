@@ -1,8 +1,4 @@
-**.exe
-
 # binaries
-**/bin/
-bin-int/
 **/Intermediates/
 **/Debug/
 
