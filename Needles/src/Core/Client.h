@@ -1,17 +1,12 @@
 #pragma once
 #include "Packet.h"
+#include "Utils/NetworkUtils.h"
 
 namespace Needles {
-	struct ClientConfig {
-		uint8_t UID[UID_SIZE] = { 0 };
-		uint8_t Authentication[AUTH_KEY_SIZE] = { 0 };
-		NetworkAddress Connection = { 0 };
-	};
-
 	class Client {
 	public:
 		Client(ClientConfig config = { 0 });
-		void Connect(const NetworkAddress& destination);
+		bool Connect(const NetworkAddress& destination);
 		void Disconnect();
 		bool Send(Packet packet);
 		bool Recieve();

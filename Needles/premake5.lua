@@ -33,6 +33,7 @@ project "Needles"
 
 		links
 		{
+			"%{Library.WinSock}",
 			--"%{Library.libssl}",
 			--"%{Library.libcrypto}",
 			--"%{Library.openSSL}"

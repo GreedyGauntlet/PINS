@@ -5,6 +5,8 @@
 #include "Security/Blacklist.h"
 #include "Utils/DataUtils.h"
 #include "Core/Packet.h"
+#include "Core/Client.h"
+#include "Core/Server.h"
 
 using namespace Needles;
 
@@ -231,6 +233,35 @@ int main() {
 		return true;
 	});
 
+	//initialize network and make client
+	NetworkUtils::Initialize();
+	Client client = Client();
+
+	//create server and open it
+	Server server = Server();
+	server.Open(6000);
+
+	//create the network address 127.0.0.1 on port 6000 (local on port 6000)
+	NetworkAddress netad = { 0 };
+	uint8_t ipv4[] = { 127, 0, 0, 1 };
+	memcpy(netad.IP.IPv4, ipv4, 4);
+	netad.Port = 6000;
+
+	//wait like 2 seconds just in case for the thread to pick up
+	uint64_t i = 0;
+	while (i < 5000000000) {
+		i++;
+	}
+
+	//try connecting
+	client.Connect(netad);
+
+	//clean up 
+	client.Disconnect();
+	server.Close();
+	NetworkUtils::Shutdown();
+
 	TestHandler::RunTests();
+
 	return 0;
 }

@@ -18,6 +18,7 @@
 #include <cstring>
 #include <random>
 #include <Windows.h>
+#include <thread>
 
 // needles
 #include "Internal/Log.h"
