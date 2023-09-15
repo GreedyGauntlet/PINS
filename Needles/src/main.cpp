@@ -24,7 +24,7 @@ int main() {
 			if (seed.Bytes[i] != 0)
 				nonzero = true;
 		return nonzero;
-	});
+		});
 
 	TestHandler::AddTest("get/set encryption seed test", [=]() -> bool {
 		Seed prior_seed = Encryption::GenerateSeed();
@@ -37,7 +37,7 @@ int main() {
 			if (post_seed.Bytes[i] != prior_seed.Bytes[i])
 				verified = false;
 		return verified;
-	});
+		});
 
 	TestHandler::AddTest("encrypt/decrypt test", [=]() -> bool {
 		Seed seed = Encryption::GenerateSeed();
@@ -62,13 +62,13 @@ int main() {
 			if (data.Bytes[i] != base_string[i])
 				decrypted = false;
 		return decrypted;
-	});
+		});
 
 	TestHandler::AddTest("data utils test", [=]() -> bool {
 		int numeric_data = 69;
 		std::string string_data = "This is a string of data I want to turn into a data object!!";
 		char array_data[38] = "Bro this is not a huge amount of data";
-	
+
 		Data ndata = DataUtils::ToData<int>(numeric_data);
 		Data sdata = DataUtils::ToData<std::string>(string_data);
 		Data adata = DataUtils::ToData<char[38]>(array_data);
@@ -79,7 +79,7 @@ int main() {
 			sdata.Bytes == nullptr ||
 			adata.Bytes == nullptr)
 			return false;
-	
+
 		int end_numeric_data = DataUtils::FromData<int>(ndata);
 		std::string end_string_data = DataUtils::FromData<std::string>(sdata);
 		char* end_array_data = (char*)DataUtils::FromData(adata);
@@ -88,7 +88,7 @@ int main() {
 			std::string(end_array_data) != std::string(array_data))
 			return false;
 		return true;
-	});
+		});
 
 	TestHandler::AddTest("packet bytes test", [=]() -> bool {
 		PacketConfig config;
@@ -99,7 +99,7 @@ int main() {
 		memcpy(config.Authentication, authkey, AUTH_KEY_SIZE);
 		memcpy(config.UID, uid, UID_SIZE);
 		Data data = DataUtils::ToData<std::string>("This is my cool packet data, isn't it awesome?!?");
-	
+
 		Packet packet = Packet(data, config);
 		uint8_t* bytes = packet.Bytes();
 		uint16_t size = DataUtils::FromBytes<uint16_t>(bytes);
@@ -120,7 +120,7 @@ int main() {
 				return false;
 
 		return true;
-	});
+		});
 
 	TestHandler::AddTest("load packet test", [=]() -> bool {
 		PacketConfig config;
@@ -141,9 +141,9 @@ int main() {
 			if (bytes[i] != loaded_bytes[i])
 				return false;
 		return true;
-	});
+		});
 
-	TestHandler::AddTest("whitelist test", [=]() -> bool {  
+	TestHandler::AddTest("whitelist test", [=]() -> bool {
 		uint8_t ipv4_example_1[] = { 0x0f, 0x50, 0xab, 0x6f };
 		uint8_t ipv4_example_2[] = { 0x8b, 0x56, 0xfa, 0xaa };
 		uint8_t ipv4_example_3[] = { 0x76, 0x56, 0xbb, 0xa9 };
@@ -186,7 +186,7 @@ int main() {
 
 		Whitelist::Clear();
 		return true;
-	});
+		});
 
 	TestHandler::AddTest("blacklist test", [=]() -> bool {
 		uint8_t ipv4_example_1[] = { 0x0f, 0x50, 0xab, 0x6f };
@@ -231,35 +231,38 @@ int main() {
 
 		Blacklist::Clear();
 		return true;
-	});
+		});
 
-	//initialize network and make client
-	NetworkUtils::Initialize();
-	Client client = Client();
+	TestHandler::AddTest("network connectivity test", [=]() -> bool {
+		//initialize network and make client
+		NetworkUtils::Initialize();
+		Client client = Client();
 
-	//create server and open it
-	Server server = Server();
-	server.Open(6000);
+		//create server and open it
+		Server server = Server();
+		server.Open(6000);
 
-	//create the network address 127.0.0.1 on port 6000 (local on port 6000)
-	NetworkAddress netad = { 0 };
-	uint8_t ipv4[] = { 127, 0, 0, 1 };
-	memcpy(netad.IP.IPv4, ipv4, 4);
-	netad.Port = 6000;
+		//create the network address 127.0.0.1 on port 6000 (local on port 6000)
+		NetworkAddress netad = { 0 };
+		uint8_t ipv4[] = { 127, 0, 0, 1 };
+		memcpy(netad.IP.IPv4, ipv4, 4);
+		netad.Port = 6000;
 
-	//wait like 2 seconds just in case for the thread to pick up
-	uint64_t i = 0;
-	while (i < 5000000000) {
-		i++;
-	}
+		//wait like 2 seconds just in case for the thread to pick up
+		uint64_t i = 0;
+		while (i < 5000000000) {
+			i++;
+		}
 
-	//try connecting
-	client.Connect(netad);
+		//try connecting
+		bool worked = client.Connect(netad);
 
-	//clean up 
-	client.Disconnect();
-	server.Close();
-	NetworkUtils::Shutdown();
+		//clean up 
+		client.Disconnect();
+		server.Close();
+		NetworkUtils::Shutdown();
+		return worked;
+		});
 
 	TestHandler::RunTests();
 
