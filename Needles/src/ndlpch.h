@@ -17,8 +17,12 @@
 #include <stdint.h>
 #include <cstring>
 #include <random>
-#include <Windows.h>
 #include <thread>
+
+// windows only
+#if _WIN32
+#include <Windows.h>
+#endif
 
 // needles
 #include "Internal/Log.h"

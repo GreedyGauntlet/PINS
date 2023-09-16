@@ -2,8 +2,9 @@
 #include "NetworkUtils.h"
 
 namespace Needles {
-	bool s_NetworkInitialized = false;
-
+	
+#ifdef _WIN32 // functions for Windows Sockets
+    bool s_NetworkInitialized = false;
 	void NetworkUtils::Initialize() {
         // initialize windows socket library
         WSADATA wsaData;
@@ -98,5 +99,44 @@ namespace Needles {
     std::string NetworkUtils::IPv6String(const NetworkAddress& address) {
         NDL_ASSERT(false, "Not implemented yet");
         return "";
+
     }
+#else //Functions for UNIX sockets
+    
+    //No initialization funtions required for UNIX sockets.
+
+    bool NetworkUtils::ConnectSocket(const Socket& socket, const NetworkAddress& destination) {
+        
+        return true;
+    }
+
+    bool NetworkUtils::Listen(const ServerConfig& config) {
+        
+    }
+
+    Socket& NetworkUtils::AcceptConnection(const ServerConfig& config) {
+       
+    }
+
+    Socket& NetworkUtils::CreateSocket() {
+        
+    }
+
+    void NetworkUtils::CloseSocket(Socket& socket) {
+        
+    }
+
+    void NetworkUtils::Shutdown() {
+        
+    }
+
+    std::string NetworkUtils::IPv4String(const NetworkAddress& address) {
+       
+    }
+
+    std::string NetworkUtils::IPv6String(const NetworkAddress& address) {
+        
+
+    }
+#endif
 }
