@@ -22,6 +22,10 @@
 // windows only
 #if _WIN32
 #include <Windows.h>
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #endif
 
 // needles
