@@ -3,6 +3,7 @@
 bin-int/
 **/Intermediates/
 **/Debug/
+**/build/
 
 # VS files and folders
 .vs/
