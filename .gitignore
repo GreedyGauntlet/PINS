@@ -12,6 +12,7 @@ bin-int/
 **.vcxproj.filters
 **.vcxproj.user
 **.cache
+**.vscode
 
 # XCode files and folders
 **.xcodeproj

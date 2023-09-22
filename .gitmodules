@@ -8,3 +8,6 @@
 	path = PINS/vendor/imgui
 	url = https://github.com/GreedyGauntlet/imgui.git
 	branch = docking
+[submodule "NEEDLES/vendor/spdlog"]
+	path = NEEDLES/vendor/spdlog
+	url = https://github.com/GreedyGauntlet/spdlog.git
