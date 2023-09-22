@@ -1,10 +1,15 @@
 #pragma once
+#include <vector>
+#include "../Panels/Panel.h"
 
 namespace PINS {
     class Application {
     public:
-        static bool Initialize();
-        static void Run();
-        static void Shutdown();
+        Application();
+        bool Initialize();
+        void Run();
+        void Shutdown();
+    private:
+        std::vector<Panel*> m_Panels;
     };
 }
