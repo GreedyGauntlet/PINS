@@ -5,13 +5,13 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "../Panels/TestPanel.h"
+#include "../Panels/CommandPanel.h"
 
 namespace PINS {
 
     Application::Application() {
         m_Panels = {
-            new TestPanel(),
+            new CommandPanel(),
         };
     }
 

@@ -18,7 +18,7 @@ target_link_libraries(PINS imgui)
 target_sources(PINS PRIVATE 
     src/Core/Window.cpp
     src/Core/Application.cpp
-    src/Panels/TestPanel.cpp
+    src/Panels/CommandPanel.cpp
 )
 
 target_include_directories(PINS PRIVATE ${CMAKE_SOURCE_DIR})
