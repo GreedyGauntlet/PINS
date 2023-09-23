@@ -19,6 +19,8 @@ target_sources(PINS PRIVATE
     src/Core/Window.cpp
     src/Core/Application.cpp
     src/Panels/CommandPanel.cpp
+    src/Panels/ClientHierarchyPanel.cpp
+    src/Panels/ClientDetailsPanel.cpp
 )
 
 target_include_directories(PINS PRIVATE ${CMAKE_SOURCE_DIR})

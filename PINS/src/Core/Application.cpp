@@ -6,12 +6,16 @@
 #include "imgui_impl_opengl3.h"
 
 #include "../Panels/CommandPanel.h"
+#include "../Panels/ClientHierarchyPanel.h"
+#include "../Panels/ClientDetailsPanel.h"
 
 namespace PINS {
 
     Application::Application() {
         m_Panels = {
             new CommandPanel(),
+			new ClientHierarchyPanel(),
+			new ClientDetailsPanel(),
         };
     }
 
