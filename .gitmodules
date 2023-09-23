@@ -1,6 +1,3 @@
-[submodule "Needles/vendor/spdlog"]
-	path = Needles/vendor/spdlog
-	url = https://github.com/Pygmalion-Project/spdlog.git
 [submodule "PINS/vendor/glfw"]
 	path = PINS/vendor/glfw
 	url = https://github.com/GreedyGauntlet/glfw.git
@@ -8,6 +5,3 @@
 	path = PINS/vendor/imgui
 	url = https://github.com/GreedyGauntlet/imgui.git
 	branch = docking
-[submodule "NEEDLES/vendor/spdlog"]
-	path = NEEDLES/vendor/spdlog
-	url = https://github.com/GreedyGauntlet/spdlog.git
